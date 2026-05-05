@@ -1,170 +1,132 @@
-# BudgetNest
+# 💰 BudgetNest
 
-**BudgetNest** is a Django-based web application designed to help families track and manage their household expenses. Users can register, add family members, record expenses, and generate insightful monthly and yearly spending reports.
+**BudgetNest** is a full-stack Django web application that helps families track, manage, and analyze household expenses efficiently.
 
----
-
-## Features
-
-- **User Authentication**: Secure signup, login, and logout system
-- **Family Member Management**: Add, view, update, and delete family members with their income details
-- **Expense Tracking**: Record expenses linked to specific family members with purpose, amount, and date
-- **Expense Reports**:
-  - View all expenses with total calculation
-  - Monthly expense report with filtering
-  - Yearly expense report with filtering
-  - Combined total expense view (monthly + yearly)
-- **User Data Isolation**: Each user can only access their own family members and expenses
-- **Responsive UI**: Clean, user-friendly interface with custom CSS styling
+It allows users to manage family members, record expenses, and generate structured financial reports for better decision-making.
 
 ---
 
-## Tech Stack
+## 🚀 Key Features
 
-- **Backend**: Django 6.0.3
-- **Database**: MySQL
-- **Frontend**: HTML, CSS, Bootstrap
-- **Language**: Python 3
+- 🔐 Authentication System
+  - Secure user signup, login, logout
+  - User-specific data isolation
+
+- 👨‍👩‍👧 Family Management
+  - Add, update, delete family members
+  - Track individual income details
+
+- 💸 Expense Tracking
+  - Record expenses with:
+    - Amount
+    - Purpose
+    - Date
+    - Linked family member
+
+- 📊 Reports & Insights
+  - Total expense overview
+  - Monthly filtering
+  - Yearly filtering
+  - Combined reports
+
+- 🎨 Responsive UI
+  - Clean and user-friendly interface
+  - Built with Bootstrap + custom CSS
 
 ---
 
-## Prerequisites
+## 🛠️ Tech Stack
 
-Before running this project, ensure you have the following installed:
-
-- [Python 3.10+](https://www.python.org/downloads/)
-- [MySQL](https://dev.mysql.com/downloads/installer/)
-- pip (Python package manager)
+| Layer        | Technology        |
+|-------------|------------------|
+| Backend      | Django 6.x        |
+| Database     | MySQL             |
+| Frontend     | HTML, CSS, Bootstrap |
+| Language     | Python 3.x        |
 
 ---
 
-## Installation & Setup
+## ⚙️ Installation & Setup
 
-### 1. Clone the Repository
+### 1. Clone the repository
+git clone https://github.com/your-username/budgetnest.git
+cd budgetnest
 
-```bash
-git clone <your-github-repo-url>
-cd BudgetNestupdated
-```
-
-### 2. Create a Virtual Environment
-
-```bash
+### 2. Create virtual environment
 python -m venv venv
 venv\Scripts\activate
-```
 
-### 3. Install Dependencies
-
-```bash
+### 3. Install dependencies
 pip install -r requirements.txt
-```
 
-> **Note**: `mysqlclient` requires MySQL C connectors. If you face installation issues on Windows, download the appropriate wheel from [https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysqlclient](https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysqlclient) and install it manually:
-> ```bash
-> pip install <downloaded-wheel-file>.whl
-> ```
+### 4. Configure environment variables
 
-### 4. Configure Environment Variables
+Create `.env` file:
 
-Create a `.env` file in the project root (`BudgetNestupdated/`) and add the following:
+SECRET_KEY=your-secret-key
+DEBUG=True
 
-```env
-SECRET_KEY=django-insecure-_wdgyl8gjx3$=u$oe-*6(ft0^zk&$^)@a44%*x(#_hu+wz(7ob
 DB_NAME=budgetnest
 DB_USER=root
-DB_PASSWORD=6304
+DB_PASSWORD=your_password
 DB_HOST=localhost
 DB_PORT=3306
-DEBUG=True
+
 ALLOWED_HOSTS=127.0.0.1,localhost
-```
 
-> **Important**: Generate a new strong `SECRET_KEY` for production. You can generate one using:
-> ```bash
-> python -c "import secrets; print('SECRET_KEY=' + secrets.token_urlsafe(50))"
-> ```
+### 5. Create database
 
-### 5. Create the MySQL Database
-
-Open MySQL and run:
-```sql
 CREATE DATABASE budgetnest;
-```
 
-### 6. Apply Migrations
-
-```bash
+### 6. Run migrations
 python manage.py migrate
-```
 
-### 7. Create a Superuser (Optional)
-
-```bash
+### 7. Create superuser (optional)
 python manage.py createsuperuser
-```
 
-### 8. Run the Development Server
-
-```bash
+### 8. Run server
 python manage.py runserver
-```
-
-Visit [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
-```
-BudgetNestupdated/
-├── BudgetNest/          # Project configuration
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-├── accounts/            # Authentication app
-│   ├── views.py
-│   ├── urls.py
-│   └── templates/
-├── family/              # Family & expense management app
-│   ├── models.py
-│   ├── views.py
-│   ├── urls.py
-│   └── templates/
-├── static/              # CSS and images
-│   └── css/
-├── templates/           # Global HTML templates
+budgetnest/
+│
+├── BudgetNest/
+├── accounts/
+├── family/
+├── static/
+├── templates/
 ├── manage.py
 └── requirements.txt
-```
 
 ---
 
-## Important Security Notes
+## 🔐 Security Notes
 
-> **Before deploying to production:**
-> - Generate a new strong `SECRET_KEY` in your `.env` file
-> - Set `DEBUG=False` in your `.env` file
-> - Update `ALLOWED_HOSTS` in your `.env` file with your production domain
-> - Use strong database credentials and never commit the `.env` file (it is already ignored in `.gitignore`)
-
----
-
-## Future Enhancements
-
-- [ ] Charts & graphs for expense visualization
-- [ ] Income vs expense analytics
-- [ ] PDF/Excel export for reports
-- [ ] Docker support for easy deployment
+- Never commit `.env`
+- Set DEBUG=False in production
+- Use a strong SECRET_KEY
+- Secure DB credentials
 
 ---
 
-## License
+## 📈 Future Improvements
 
-This project is open-source and available under the [MIT License](LICENSE).
+- Expense charts
+- Export reports (PDF/Excel)
+- API integration
+- Mobile app version
 
 ---
 
-## Author
+## 📄 License
 
-Developed for personal family budget management.
+MIT License
+
+---
+
+## 👨‍💻 Author
+
+Developed by Mithun R
