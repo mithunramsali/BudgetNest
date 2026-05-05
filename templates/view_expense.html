@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-header animate-in">
+    <h1>View Expenses</h1>
+    <p>All recorded expenses across your household.</p>
+</div>
+
+<div class="animate-in" style="animation-delay: 0.1s">
+    {% for message in messages %}
+    <div class="alert alert-success">
+        <i data-lucide="check-circle" style="width:18px;height:18px;flex-shrink:0"></i>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% if expenses %}
+        <div class="stat-card" style="margin-bottom: 28px; max-width: 340px;">
+            <span class="stat-label">Total Expenses</span>
+            <span class="stat-value" style="background: linear-gradient(135deg, var(--accent), var(--accent-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">₹{{ total_expense|floatformat:2 }}</span>
+        </div>
+
+        <div class="glass-card" style="overflow: hidden;">
+            <div style="padding: 24px 24px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                <div>
+                    <h3 style="font-size:1.1rem; margin-bottom:4px;">Expense Records</h3>
+                    <p style="color:var(--text-secondary); font-size:0.85rem; margin:0;">{{ expenses|length }} record{{ expenses|length|pluralize }} found</p>
+                </div>
+                <a href="{% url 'addexpense' %}" class="btn-primary">
+                    <i data-lucide="plus-circle" style="width:16px;height:16px"></i>
+                    Add Expense
+                </a>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Member</th>
+                            <th>Purpose</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th style="text-align:center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for expense in expenses %}
+                            <tr>
+                                <td>
+                                    <div style="display:flex; align-items:center; gap:10px;">
+                                        <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--accent-start),var(--accent-end));display:flex;align-items:center;justify-content:center;font-weight:600;font-size:0.75rem;">
+                                            {{ expense.name.firstname|first|upper }}
+                                        </div>
+                                        {{ expense.name.firstname }}
+                                    </div>
+                                </td>
+                                <td>{{ expense.purpose }}</td>
+                                <td style="font-weight:600;">₹{{ expense.expense|floatformat:2 }}</td>
+                                <td>{{ expense.date|date:"d M Y" }}</td>
+                                <td style="text-align:center;">
+                                    <a href="{% url 'updateexpense' expense.id %}" class="btn-warning" style="margin-right:6px;">
+                                        <i data-lucide="edit-2" style="width:14px;height:14px"></i>
+                                        Edit
+                                    </a>
+                                    <a href="{% url 'deleteexpense' expense.id %}" class="btn-danger" onclick="return confirm('Are you sure you want to delete this expense?')">
+                                        <i data-lucide="trash-2" style="width:14px;height:14px"></i>
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <div class="glass-card empty-state">
+            <i data-lucide="receipt" style="width:64px;height:64px;opacity:0.3"></i>
+            <h3 style="margin-bottom:8px;">No expenses yet</h3>
+            <p style="margin-bottom:24px;">Start tracking your household expenses.</p>
+            <a href="{% url 'addexpense' %}" class="btn-primary">
+                <i data-lucide="plus-circle" style="width:18px;height:18px"></i>
+                Add an Expense
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-header animate-in">
+    <h1>Update Expense</h1>
+    <p>Edit expense details for {{ data.name.firstname }}.</p>
+</div>
+
+<div class="glass-card form-card animate-in" style="animation-delay: 0.1s; max-width: 500px; margin: 0 auto;">
+    <form action="{% url 'updateexpense' data.id %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="form-label">Purpose</label>
+            <input class="form-input" type="text" placeholder="Purpose" name="purpose" value="{{ data.purpose }}" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Amount (₹)</label>
+            <input class="form-input" type="number" placeholder="Expense" name="expense" value="{{ data.expense }}" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Date</label>
+            <input class="form-input" type="date" name="date" value="{{ data.date|date:'Y-m-d' }}" required>
+        </div>
+        <div style="display:flex; gap:12px;">
+            <a href="{% url 'viewexpense' %}" class="btn-secondary" style="flex:1">
+                <i data-lucide="arrow-left" style="width:16px;height:16px"></i>
+                Back
+            </a>
+            <button type="submit" class="btn-primary" style="flex:2">
+                <i data-lucide="save" style="width:18px;height:18px"></i>
+                Update Expense
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

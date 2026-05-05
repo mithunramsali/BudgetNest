@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-header animate-in">
+    <h1>Monthly Report</h1>
+    <p>Review expenses for a specific month.</p>
+</div>
+
+<div class="animate-in" style="animation-delay: 0.1s">
+    <div class="glass-card" style="padding: 24px; margin-bottom: 28px;">
+        <form action="{% url 'monthlyreport' %}" method="post" style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:16px;">
+            {% csrf_token %}
+            <div style="flex:1; min-width:140px;">
+                <label class="form-label">Year</label>
+                <select class="form-select" name="year">
+                    {% for year in years %}
+                    <option value="{{ year }}" {% if year == start_year %}selected{% endif %}>{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div style="flex:1; min-width:140px;">
+                <label class="form-label">Month</label>
+                <select class="form-select" name="month">
+                    {% for month in months %}
+                    <option value="{{ forloop.counter }}" {% if forloop.counter == start_month %}selected{% endif %}>{{ month }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-primary">
+                <i data-lucide="filter" style="width:16px;height:16px"></i>
+                Filter
+            </button>
+        </form>
+    </div>
+
+    {% if total_expense > 0 %}
+    <div class="stat-card" style="margin-bottom: 28px; max-width: 340px;">
+        <span class="stat-label">Total for {{ months|slice:"start_month-1:start_month"|first }} {{ start_year }}</span>
+        <span class="stat-value" style="background: linear-gradient(135deg, var(--accent), var(--accent-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">₹{{ total_expense|floatformat:2 }}</span>
+    </div>
+    {% endif %}
+
+    <div class="glass-card" style="overflow: hidden;">
+        <div style="padding: 24px 24px 0;">
+            <h3 style="font-size:1.1rem; margin-bottom:4px;">Expense Records</h3>
+            <p style="color:var(--text-secondary); font-size:0.85rem; margin:0 0 16px 0;">{{ records|length }} record{{ records|length|pluralize }} found</p>
+        </div>
+        <div style="overflow-x: auto;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Member</th>
+                        <th>Purpose</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in records %}
+                    <tr>
+                        <td>
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--accent-start),var(--accent-end));display:flex;align-items:center;justify-content:center;font-weight:600;font-size:0.75rem;">
+                                    {{ i.name.firstname|first|upper }}
+                                </div>
+                                {{ i.name.firstname }}
+                            </div>
+                        </td>
+                        <td>{{ i.purpose }}</td>
+                        <td style="font-weight:600;">₹{{ i.expense|floatformat:2 }}</td>
+                        <td>{{ i.date|date:"d M Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if norecords %}
+        <div class="empty-state" style="padding: 48px 24px;">
+            <i data-lucide="file-text" style="width:48px;height:48px;opacity:0.3"></i>
+            <p style="margin-top:12px;">{{ norecords }}</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

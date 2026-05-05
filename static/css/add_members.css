@@ -1,0 +1,74 @@
+/* ===== Background Wrapper ===== */
+.page-bg {
+    background: url("../images/addmember.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    min-height: 100vh;
+}
+
+/* ===== Heading ===== */
+h1 {
+    padding: 20px;
+    margin-top: 80px; /* reduced from 100px */
+    color: black;
+    text-align: center;
+}
+
+/* ===== Form Table ===== */
+table {
+    margin-top: 20px;
+}
+
+tr, td {
+    padding: 10px;
+}
+
+/* ===== Input Fields ===== */
+input.form-control {
+    width: 250px;
+}
+
+/* ===== Button ===== */
+input[type="submit"] {
+    width: 100%;
+}
+
+/* ===== Error Message ===== */
+.error-text {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}
+
+/* ===== Message Container (FIXED TOP CENTER) ===== */
+.message-container {
+    position: fixed;
+    top: 70px; /* avoids navbar */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99999;
+    text-align: center;
+    width: auto;
+}
+
+/* ===== Success Message Box ===== */
+.custom-alert {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    display: inline-block;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+
+    animation: fadeOut 6s ease-in-out forwards;
+}
+
+/* ===== Fade Animation ===== */
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { opacity: 0; }
+}

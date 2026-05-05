@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="page-header animate-in">
+    <h1>Your Family Members</h1>
+    <p>Manage your household members and their details.</p>
+</div>
+
+<div class="animate-in" style="animation-delay: 0.1s">
+    {% for message in messages %}
+    <div class="alert alert-success">
+        <i data-lucide="check-circle" style="width:18px;height:18px;flex-shrink:0"></i>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% if data %}
+        <div class="glass-card" style="overflow: hidden;">
+            <div style="padding: 24px 24px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                <div>
+                    <h3 style="font-size:1.1rem; margin-bottom:4px;">Member List</h3>
+                    <p style="color:var(--text-secondary); font-size:0.85rem; margin:0;">{{ data|length }} member{{ data|length|pluralize }} registered</p>
+                </div>
+                <a href="{% url 'addfamily' %}" class="btn-primary">
+                    <i data-lucide="user-plus" style="width:16px;height:16px"></i>
+                    Add Member
+                </a>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Age</th>
+                            <th>Income</th>
+                            <th style="text-align:center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for member in data %}
+                            <tr>
+                                <td>
+                                    <div style="display:flex; align-items:center; gap:10px;">
+                                        <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent-start),var(--accent-end));display:flex;align-items:center;justify-content:center;font-weight:600;font-size:0.8rem;">
+                                            {{ member.firstname|first|upper }}
+                                        </div>
+                                        {{ member.firstname }}
+                                    </div>
+                                </td>
+                                <td>{{ member.age }} years</td>
+                                <td style="font-weight:600;">₹{{ member.income|floatformat:2 }}</td>
+                                <td style="text-align:center;">
+                                    <a href="{% url 'updatefamily' member.id %}" class="btn-warning" style="margin-right:6px;">
+                                        <i data-lucide="edit-2" style="width:14px;height:14px"></i>
+                                        Update
+                                    </a>
+                                    <a href="{% url 'deletefamily' member.id %}" class="btn-danger" onclick="return confirm('Are you sure you want to delete this member?')">
+                                        <i data-lucide="trash-2" style="width:14px;height:14px"></i>
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <div class="glass-card empty-state">
+            <i data-lucide="users" style="width:64px;height:64px;opacity:0.3"></i>
+            <h3 style="margin-bottom:8px;">No family members yet</h3>
+            <p style="margin-bottom:24px;">Start by adding your first household member.</p>
+            <a href="{% url 'addfamily' %}" class="btn-primary">
+                <i data-lucide="user-plus" style="width:18px;height:18px"></i>
+                Add a Family Member
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="page-header animate-in">
+    <h1>Add Expense</h1>
+    <p>Record a new expense for a family member.</p>
+</div>
+
+<div class="glass-card form-card animate-in" style="animation-delay: 0.1s; max-width: 500px; margin: 0 auto;">
+    {% for message in messages %}
+    <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">
+        <i data-lucide="{% if message.tags == 'error' %}alert-circle{% else %}check-circle{% endif %}" style="width:18px;height:18px;flex-shrink:0"></i>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <form action="{% url 'addexpense' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="form-label">Family Member</label>
+            <select class="form-select" name="name" required>
+                {% for i in data %}
+                <option value="{{ i.firstname }}">{{ i.firstname }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Purpose</label>
+            <input type="text" class="form-input" placeholder="e.g. Groceries, Rent, Utilities" name="purpose" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Amount (₹)</label>
+            <input type="number" class="form-input" placeholder="Enter amount" name="expense" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-input" name="date" value="{{ Expenses.date|date:'Y-m-d' }}" required>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%">
+            <i data-lucide="plus-circle" style="width:18px;height:18px"></i>
+            Add Expense
+        </button>
+    </form>
+</div>
+
+{% endblock %}

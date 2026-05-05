@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page-header animate-in">
+    <h1>Total Expense</h1>
+    <p>Compare monthly and yearly spending at a glance.</p>
+</div>
+
+<div class="animate-in" style="animation-delay: 0.1s">
+    <div class="glass-card" style="padding: 24px; margin-bottom: 28px;">
+        <form action="{% url 'totalexpense' %}" method="post" style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:16px;">
+            {% csrf_token %}
+            <div style="flex:1; min-width:140px;">
+                <label class="form-label">Year</label>
+                <select class="form-select" name="year">
+                    {% for year in years %}
+                    <option value="{{ year }}" {% if year == start_year %}selected{% endif %}>{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div style="flex:1; min-width:140px;">
+                <label class="form-label">Month</label>
+                <select class="form-select" name="month">
+                    {% for month in months %}
+                    <option value="{{ forloop.counter }}" {% if forloop.counter == start_month %}selected{% endif %}>{{ month }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-primary">
+                <i data-lucide="filter" style="width:16px;height:16px"></i>
+                Filter
+            </button>
+        </form>
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; margin-bottom: 28px;">
+        <div class="stat-card">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                <i data-lucide="calendar" style="width:18px;height:18px;color:var(--accent)"></i>
+                <span class="stat-label">Monthly Total</span>
+            </div>
+            <span class="stat-value" style="background: linear-gradient(135deg, var(--accent), var(--accent-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">₹{{ total_expense|floatformat:2 }}</span>
+        </div>
+        <div class="stat-card">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                <i data-lucide="bar-chart-2" style="width:18px;height:18px;color:var(--accent-end)"></i>
+                <span class="stat-label">Yearly Total ({{ start_year }})</span>
+            </div>
+            <span class="stat-value" style="background: linear-gradient(135deg, var(--accent-end), #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">₹{{ year_total|floatformat:2 }}</span>
+        </div>
+    </div>
+
+    <div class="glass-card" style="overflow: hidden;">
+        <div style="padding: 24px 24px 0;">
+            <h3 style="font-size:1.1rem; margin-bottom:4px;">Expense Breakdown</h3>
+            <p style="color:var(--text-secondary); font-size:0.85rem; margin:0 0 16px 0;">{{ expenses|length }} record{{ expenses|length|pluralize }} for selected period</p>
+        </div>
+        <div style="overflow-x: auto;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Member</th>
+                        <th>Purpose</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in expenses %}
+                    <tr>
+                        <td>
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--accent-start),var(--accent-end));display:flex;align-items:center;justify-content:center;font-weight:600;font-size:0.75rem;">
+                                    {{ i.name.firstname|first|upper }}
+                                </div>
+                                {{ i.name.firstname }}
+                            </div>
+                        </td>
+                        <td>{{ i.purpose }}</td>
+                        <td style="font-weight:600;">₹{{ i.expense|floatformat:2 }}</td>
+                        <td>{{ i.date|date:"d M Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if norecords %}
+        <div class="empty-state" style="padding: 48px 24px;">
+            <i data-lucide="file-text" style="width:48px;height:48px;opacity:0.3"></i>
+            <p style="margin-top:12px;">{{ norecords }}</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

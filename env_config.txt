@@ -1,0 +1,8 @@
+SECRET_KEY=django-insecure-_wdgyl8gjx3$=u$oe-*6(ft0^zk&$^)@a44%*x(#_hu+wz(7ob
+DB_NAME=budgetnest
+DB_USER=root
+DB_PASSWORD=6304
+DB_HOST=localhost
+DB_PORT=3306
+DEBUG=True
+ALLOWED_HOSTS=127.0.0.1,localhost
